@@ -1,52 +1,33 @@
-﻿#include <iostream>
-#include <sstream>
-#include <vector>
-#include <string>
+﻿#include <stdio.h>
+#include <malloc.h>
 
 struct Person
 {
     int value;
-    Person* child1;
-    Person* child2;
+    struct Person* child1;
+    struct Person* child2;
 };
 
 int main()
 {
     int n = 0; // 人数
-    std::cin >> n;
+    
+    scanf("%d", &n);
 
     // 创建n个人
-    std::vector<Person> persons(n);
+    struct Person* persons = (struct Person*)malloc(n * sizeof(struct Person));
 
-    std::string line;
-    std::vector<int> numbers;
-
-    std::getline(std::cin, line);
-
-    // 使用字符串流解析这一行输入
-    std::istringstream iss(line);
-    int number;
-
-    // 逐个读取整数并存入向量
-    while (iss >> number)
+    for (int i = 0; i < n; ++i)
     {
-        numbers.push_back(number);
+        scanf("%d", &(persons[i].value));
     }
-
-    // 初始化每个人的金钱
-    for (int i = 0; i < n; i++)
-    {
-        persons[i].value = numbers[i];
-        persons[i].child1 = NULL;
-        persons[i].child2 = NULL;
-    }
-
+    
     // 创建关系
     for (int i = 0; i < n - 1; i++)
     {
         int p = 0;
         int c = 0;
-        std::cin >> p >> c;
+        scanf("%d %d", &p, &c);
 
         if (!persons[p - 1].child1)
         {
@@ -79,7 +60,9 @@ int main()
         }
     }
 
-    std::cout << sum << std::endl;
+    printf("%d\r\n", sum);
+
+    free(persons);
 
     return 0;
 }
