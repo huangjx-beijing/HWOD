@@ -1,12 +1,13 @@
-﻿#include <iostream>
-#include <array>
+﻿#include <stdio.h>
+#include <malloc.h>
+#include <memory.h>
 
 int main()
 {
-    int count; // 数字个数
-    int row;   // 行数
+    int count = 0; // 数字个数
+    int row = 0;   // 行数
 
-    std::cin >> count >> row;
+    scanf("%d %d", &count, &row);
 
     if (count <= 0 || row <= 0)
     {
@@ -17,7 +18,9 @@ int main()
     int col = count / row + ((0 == count % row) ? 0 : 1);
 
     // 矩阵
-    int* mat = new int[row * col] { 0 };
+    int* mat = (int*)malloc(row * col * sizeof(int));
+
+    memset(mat, 0, row * col * sizeof(int));
 
     int i = 1;  // 当前数字
     int r = 0;  // 当前行数
@@ -72,15 +75,17 @@ int main()
             int value = mat[i * col + j];
             if (value > 0)
             {
-                std::cout << mat[i * col + j] << " ";
+                printf("%d ", mat[i * col + j]);
             }
             else
             {
-                std::cout << "* ";
+                printf("* ");
             }
         }
-        std::cout << std::endl;
+        printf("\r\n");
     }
 
-    delete[]mat;
+    free(mat);
+
+    return 0;
 }
